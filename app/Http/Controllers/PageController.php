@@ -42,6 +42,13 @@ class PageController extends Controller
             $q->where('status', 'approved');
         }])->get();
 
+        if ($categories->isEmpty()) {
+            Category::seedDefaults();
+            $categories = Category::withCount(['events' => function ($q) {
+                $q->where('status', 'approved');
+            }])->get();
+        }
+
         $featuredGallery = MediaGallery::orderBy('created_at', 'desc')->take(6)->get();
 
         return view('home', compact('upcomingEvents', 'ongoingEvents', 'pastEvents', 'announcements', 'categories', 'featuredGallery'));

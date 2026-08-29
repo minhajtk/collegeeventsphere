@@ -81,7 +81,7 @@ CREATE TABLE `categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `categories_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `created_at`, `updated_at`) VALUES
 ('1', 'Cultural Events', 'cultural-events', 'Dance, music, drama, fashion shows, and artistic performance competitions.', 'palette', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
@@ -89,7 +89,11 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `created_
 ('3', 'Sports Meets', 'sports-meets', 'Track & field events, football, basketball, cricket, and indoor sports tournaments.', 'trophy', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
 ('4', 'Annual Day Functions', 'annual-day-functions', 'College anniversary, prize distribution, and annual celebration functions.', 'star', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
 ('5', 'Workshops & Seminars', 'workshops-seminars', 'Academic lectures, industry expert talks, skill-building workshops, and webinars.', 'book', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
-('6', 'Intercollegiate Competitions', 'intercollegiate-competitions', 'Multi-college tournaments, debates, quizzes, and inter-university fests.', 'users', '2026-08-27 04:30:18', '2026-08-27 04:30:18');
+('6', 'Intercollegiate Competitions', 'intercollegiate-competitions', 'Multi-college tournaments, debates, quizzes, and inter-university fests.', 'users', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
+('7', 'Hackathons & Coding', 'hackathons-coding', '24-hour programming hackathons, algorithmic sprints, and app development competitions.', 'laptop-code', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
+('8', 'Gaming & Esports', 'gaming-esports', 'Competitive campus esports leagues, LAN tournaments, and gaming championships.', 'gamepad', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
+('9', 'Music & Concerts', 'music-concerts', 'Live campus bands, DJ nights, classical concerts, and acoustic showcases.', 'music', '2026-08-27 04:30:18', '2026-08-27 04:30:18'),
+('10', 'Career & Placement Fairs', 'career-placement-fairs', 'Industry recruitment drives, internship showcases, and alumni networking sessions.', 'briefcase', '2026-08-27 04:30:18', '2026-08-27 04:30:18');
 
 DROP TABLE IF EXISTS `certificates`;
 CREATE TABLE `certificates` (

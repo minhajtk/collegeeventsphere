@@ -102,3 +102,9 @@ Route::get('/hosting-setup', function (\Illuminate\Http\Request $request) {
         return response('<div style="font-family:sans-serif; text-align:center; padding:3rem;"><h2 style="color:#ef4444;">Setup Error</h2><p>' . htmlspecialchars($e->getMessage()) . '</p></div>', 500);
     }
 });
+
+// 7. Seed Dummy Categories Route
+Route::get('/seed-categories', function () {
+    \App\Models\Category::seedDefaults();
+    return redirect()->route('events.index')->with('success', '10 Event Categories loaded successfully!');
+})->name('categories.seed');

@@ -42,6 +42,10 @@ class OrganizerController extends Controller
     public function createEvent()
     {
         $categories = Category::all();
+        if ($categories->isEmpty()) {
+            Category::seedDefaults();
+            $categories = Category::all();
+        }
         return view('organizer.create_event', compact('categories'));
     }
 

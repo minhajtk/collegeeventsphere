@@ -59,6 +59,10 @@ class EventController extends Controller
         $events = $query->orderBy('start_date', 'asc')->paginate(9)->withQueryString();
 
         $categories = Category::all();
+        if ($categories->isEmpty()) {
+            Category::seedDefaults();
+            $categories = Category::all();
+        }
         $departments = Event::whereNotNull('organizing_department')
             ->distinct()
             ->pluck('organizing_department');

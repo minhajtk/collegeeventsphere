@@ -43,3 +43,13 @@ Artisan::command('admin:create {email=admin@eventsphere.edu} {password=admin123}
     $this->line("Role: {$user->role}");
     return 0;
 })->purpose('Create or reset an admin account with custom or default credentials');
+
+Artisan::command('db:seed-categories', function () {
+    \App\Models\Category::seedDefaults();
+    $count = \App\Models\Category::count();
+    $this->info("Categories successfully seeded! Total categories in database: {$count}");
+    foreach (\App\Models\Category::all() as $cat) {
+        $this->line(" - [{$cat->id}] {$cat->name} (icon: {$cat->icon})");
+    }
+    return 0;
+})->purpose('Seed all standard dummy campus event categories');
