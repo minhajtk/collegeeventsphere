@@ -22,3 +22,24 @@ Artisan::command('db:import-dump', function () {
     $this->info("Database imported successfully with all data!");
     return 0;
 })->purpose('Import the backup SQL dump file into the database');
+
+Artisan::command('admin:create {email=admin@eventsphere.edu} {password=admin123}', function ($email = 'admin@eventsphere.edu', $password = 'admin123') {
+    $user = \App\Models\User::updateOrCreate(
+        ['email' => $email],
+        [
+            'name' => 'System Administrator',
+            'username' => 'admin',
+            'password' => \Illuminate\Support\Facades\Hash::make($password),
+            'phone' => '+1234567890',
+            'role' => 'admin',
+            'department' => 'Administration',
+            'enrolment_number' => 'ADM-2026-01',
+            'status' => 'active',
+        ]
+    );
+    $this->info("Admin account successfully configured!");
+    $this->line("Email / Username: {$email} (or username: admin)");
+    $this->line("Password: {$password}");
+    $this->line("Role: {$user->role}");
+    return 0;
+})->purpose('Create or reset an admin account with custom or default credentials');

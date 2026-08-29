@@ -339,7 +339,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `phone`, `role`, `department`, `enrolment_number`, `status`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-('1', 'System Administrator', 'admin@eventsphere.edu', 'admin', '$2y$12$4pABjHDQYpCyEv.gy.uBYev41DwJN1e9On5kbdpFKealsAzp/vtu.', '+1234567890', 'admin', 'Administration', 'ADM-2026-01', 'active', NULL, NULL, '2026-08-27 04:30:19', '2026-08-27 04:30:19'),
+('1', 'System Administrator', 'admin@eventsphere.edu', 'admin', '$2y$10$H3AKN3bv/VDdYW.ODRxZ0.A58xTQCwp/WIbqTj1lBtQt9GBWZBVSe', '+1234567890', 'admin', 'Administration', 'ADM-2026-01', 'active', NULL, NULL, '2026-08-27 04:30:19', '2026-08-27 04:30:19'),
 ('2', 'Prof. Sarah Jenkins', 'organizer@eventsphere.edu', 'organizer', '$2y$12$StXb4tM5n8h7IoS8k/Le6ubh5v2up3no2yseEZy1NejmGddNCNDRO', '+1987654321', 'organizer', 'Computer Science & Engineering', 'FAC-CS-0042', 'active', NULL, NULL, '2026-08-27 04:30:19', '2026-08-27 04:30:19'),
 ('3', 'Alex Rivera', 'student@eventsphere.edu', 'alexstudent', '$2y$12$R8JF46eZI0MNnRc3bqPoDeod69FgGxds0e5t.pt8H9AHLMQDOVtam', '+1555019283', 'student', 'Information Technology', 'EN20269981', 'suspended', NULL, NULL, '2026-08-27 04:30:19', '2026-08-27 05:06:57'),
 ('4', 'aliyan', 'aliyan@gmail.com', 'aliyan', '$2y$12$uYP1/i0dfIkVckE6npei/Oc.0ffZvmDwnOdE25XVIKy/MyyKb4PzS', '924563896576', 'student', 'Computer Science & Engineering', 'EN202627', 'active', NULL, NULL, '2026-08-27 04:53:51', '2026-08-27 04:53:51'),
