@@ -11,7 +11,7 @@
 <!-- Filters Bar -->
 <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-soft);">
     <form action="{{ route('events.index') }}" method="GET">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+        <div class="filter-form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
             <div>
                 <label class="form-label" style="font-size: 0.82rem;">Search Keywords</label>
                 <input type="text" name="search" class="form-control" placeholder="Search title, venue, or dept..." value="{{ request('search') }}">
@@ -48,16 +48,16 @@
             </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <div class="filter-bar-actions">
             <!-- Status Tabs -->
-            <div style="display: flex; gap: 0.5rem;">
+            <div class="event-filter-tabs">
                 <a href="{{ route('events.index', array_merge(request()->query(), ['tab' => 'all'])) }}" class="btn btn-sm {{ $tab === 'all' ? 'btn-primary' : 'btn-secondary' }}">All Events</a>
                 <a href="{{ route('events.index', array_merge(request()->query(), ['tab' => 'upcoming'])) }}" class="btn btn-sm {{ $tab === 'upcoming' ? 'btn-primary' : 'btn-secondary' }}">Upcoming</a>
                 <a href="{{ route('events.index', array_merge(request()->query(), ['tab' => 'ongoing'])) }}" class="btn btn-sm {{ $tab === 'ongoing' ? 'btn-primary' : 'btn-secondary' }}">Ongoing</a>
                 <a href="{{ route('events.index', array_merge(request()->query(), ['tab' => 'past'])) }}" class="btn btn-sm {{ $tab === 'past' ? 'btn-primary' : 'btn-secondary' }}">Past Events</a>
             </div>
 
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                 <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm">Reset Filters</a>
                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-filter"></i> Apply Filters</button>
             </div>

@@ -14,9 +14,17 @@
 </head>
 <body>
 
+<!-- Portal Sidebar Overlay (mobile) -->
+<div class="portal-sidebar-overlay" id="portalSidebarOverlay"></div>
+
 <div class="portal-layout">
     <!-- Sleek Admin Sidebar -->
-    <aside class="portal-sidebar">
+    <aside class="portal-sidebar" id="portalSidebar">
+        <!-- Mobile Sidebar Close Button -->
+        <button class="mobile-sidebar-close" id="portalSidebarClose" aria-label="Close Sidebar" style="display: none; position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: #ffffff; border-radius: var(--radius-sm); padding: 0.35rem 0.55rem; cursor: pointer; font-size: 0.95rem;">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
         <!-- Sidebar Brand Header -->
         <div class="sidebar-header">
             <a href="{{ route('home') }}" class="brand-logo" style="font-size: 1.3rem;">
@@ -156,6 +164,16 @@
 
     <!-- Main Content Area -->
     <main class="portal-content">
+        <!-- Mobile Portal Topbar -->
+        <div class="portal-mobile-topbar" id="portalMobileTopbar" style="display: none;">
+            <a href="{{ route('home') }}" class="brand-logo" style="font-size: 1.1rem;">
+                <i class="fa-solid fa-graduation-cap" style="color: #6366f1;"></i>
+                <span>EventSphere</span>
+            </a>
+            <button id="portalSidebarToggle" aria-label="Open Sidebar" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: #ffffff; border-radius: var(--radius-sm); padding: 0.4rem 0.7rem; cursor: pointer; font-size: 1rem;">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
         <!-- Flash Alerts -->
         @if(session('success'))
             <div class="alert alert-success alert-auto-dismiss">
@@ -185,5 +203,47 @@
 <!-- JavaScript Dependencies -->
 <script src="{{ asset('js/eventsphere.js') }}"></script>
 @yield('scripts')
+<script>
+// Portal Mobile Sidebar Toggle
+(function() {
+    var sidebar = document.getElementById('portalSidebar');
+    var overlay = document.getElementById('portalSidebarOverlay');
+    var toggleBtn = document.getElementById('portalSidebarToggle');
+    var closeBtn = document.getElementById('portalSidebarClose');
+    var mobileTopbar = document.getElementById('portalMobileTopbar');
+
+    function isMobile() { return window.innerWidth <= 768; }
+
+    function showMobileUI() {
+        if (mobileTopbar) mobileTopbar.style.display = 'flex';
+        if (closeBtn) closeBtn.style.display = 'inline-flex';
+    }
+    function hideMobileUI() {
+        if (mobileTopbar) mobileTopbar.style.display = 'none';
+        if (closeBtn) closeBtn.style.display = 'none';
+    }
+
+    function openSidebar() {
+        if (sidebar) sidebar.classList.add('mobile-open');
+        if (overlay) overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+        if (sidebar) sidebar.classList.remove('mobile-open');
+        if (overlay) overlay.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    if (isMobile()) showMobileUI();
+    window.addEventListener('resize', function() {
+        if (isMobile()) { showMobileUI(); closeSidebar(); }
+        else { hideMobileUI(); closeSidebar(); }
+    });
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+})();
+</script>
 </body>
 </html>

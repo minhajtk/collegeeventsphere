@@ -3,7 +3,8 @@
 @section('title', $event->title . ' - EventSphere')
 
 @section('content')
-<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 4rem;">
+<div class="event-detail-grid">
+
     
     <!-- Left Column: Banner & Info -->
     <div>

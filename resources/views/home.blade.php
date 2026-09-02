@@ -113,7 +113,7 @@
 
 <!-- Join as an Organizer Feature Callout Section -->
 <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: var(--radius-lg); padding: 2.25rem; margin-bottom: 3.5rem;">
-    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: center;">
+    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: center;" class="organizer-callout-grid">
         <div>
             <span style="display: inline-block; padding: 0.25rem 0.75rem; background: rgba(168, 85, 247, 0.2); border-radius: var(--radius-full); font-family: var(--font-sub); font-size: 0.72rem; font-weight: 700; color: #c084fc; text-transform: uppercase; margin-bottom: 0.75rem;">
                 <i class="fa-solid fa-briefcase"></i> For Faculty & Student Clubs

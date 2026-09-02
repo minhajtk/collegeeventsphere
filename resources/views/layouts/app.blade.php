@@ -16,8 +16,9 @@
 <body>
 
     <!-- Glassmorphism Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" style="position: relative;">
         <div class="nav-container">
+
             <a href="{{ route('home') }}" class="brand-logo">
                 <i class="fa-solid fa-graduation-cap" style="color: #6366f1;"></i>
                 <span>EventSphere</span>
