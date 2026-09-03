@@ -1507,3 +1507,128 @@ table {
     overflow-x: hidden;
 }
 
+/* ==========================================================================
+   Pagination & Navigation Controls (Proper Arrow Sizing & Dark UI Alignment)
+   ========================================================================== */
+.eventsphere-pagination,
+nav[role="navigation"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.25rem 0 0.5rem;
+    font-family: var(--font-sub);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.eventsphere-pagination .pagination-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.eventsphere-pagination .pagination-links,
+nav[role="navigation"] .pagination-links {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.eventsphere-pagination .page-link,
+nav[role="navigation"] a,
+nav[role="navigation"] span.relative,
+nav[role="navigation"] span[aria-disabled="true"],
+nav[role="navigation"] span[aria-current="page"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 0.65rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.eventsphere-pagination .page-link:hover:not(.disabled):not(.active),
+nav[role="navigation"] a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.eventsphere-pagination .page-link.active,
+nav[role="navigation"] span[aria-current="page"] {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+.eventsphere-pagination .page-link.disabled,
+nav[role="navigation"] span[aria-disabled="true"] {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.eventsphere-pagination .page-link.dots {
+    border: none;
+    background: transparent;
+}
+
+/* Constrain any SVGs inside pagination / navigation (e.g. left & right arrows) */
+nav[role="navigation"] svg,
+nav[role="navigation"] .w-5,
+nav[role="navigation"] .h-5,
+.w-5,
+.h-5,
+svg.w-5,
+svg.h-5 {
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* Fix Laravel Default Tailwind pagination wrapping if rendered */
+nav[role="navigation"] > div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+nav[role="navigation"] > div:first-child:not(:only-child) {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .eventsphere-pagination,
+    nav[role="navigation"] {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+    }
+
+    .eventsphere-pagination .pagination-links {
+        justify-content: center;
+    }
+}
+
+
