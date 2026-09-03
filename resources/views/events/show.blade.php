@@ -231,26 +231,53 @@
             <!-- Registration Action Buttons -->
             @auth
                 @if(isset($userRegistration))
-                    @if($userRegistration->status === 'registered')
+                    @if($userRegistration->status === 'attended')
+                        <div style="padding: 1rem; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-md); text-align: center; margin-bottom: 1rem;">
+                            <i class="fa-solid fa-user-check" style="color: #60a5fa; font-size: 1.5rem; margin-bottom: 0.3rem;"></i>
+                            <h4 style="color: #60a5fa; font-size: 1rem;">Attendance Verified!</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Your attendance has been confirmed. You can access your certificate in your dashboard once issued by the organizer.</p>
+                            <a href="{{ route('student.dashboard') }}" class="btn btn-sm btn-outline" style="margin-top: 0.5rem; width: 100%;">View in Student Dashboard</a>
+                        </div>
+                    @elseif($userRegistration->status === 'registered')
+                        @php
+                            $startDate = $event->start_date->copy()->startOfDay();
+                            $endDate = ($event->end_date ? $event->end_date->copy() : $event->start_date->copy())->endOfDay();
+                            $isEventDay = now()->gte($startDate) && now()->lte($endDate);
+                        @endphp
                         <div style="padding: 1rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); text-align: center; margin-bottom: 1rem;">
                             <i class="fa-solid fa-circle-check" style="color: #34d399; font-size: 1.5rem; margin-bottom: 0.3rem;"></i>
                             <h4 style="color: #34d399; font-size: 1rem;">You are Registered!</h4>
                             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">View your QR check-in token in your student dashboard.</p>
+                            @if($isEventDay)
+                                <form action="{{ route('student.events.attendance', $event->id) }}" method="POST" style="margin-top: 0.75rem;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: none;" onclick="return confirm('Mark your attendance for this event today?');">
+                                        <i class="fa-solid fa-user-check"></i> Mark Attendance Today
+                                    </button>
+                                </form>
+                            @endif
                         </div>
+
+                        <form action="{{ route('events.register.cancel', $userRegistration->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;" onclick="return confirm('Are you sure you want to cancel your registration?');">
+                                <i class="fa-solid fa-xmark"></i> Cancel Registration
+                            </button>
+                        </form>
                     @elseif($userRegistration->status === 'waitlisted')
                         <div style="padding: 1rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); text-align: center; margin-bottom: 1rem;">
                             <i class="fa-solid fa-clock-rotate-left" style="color: #fbbf24; font-size: 1.5rem; margin-bottom: 0.3rem;"></i>
                             <h4 style="color: #fbbf24; font-size: 1rem;">On Waitlist</h4>
                             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">You will be auto-promoted if a registered participant cancels.</p>
                         </div>
-                    @endif
 
-                    <form action="{{ route('events.register.cancel', $userRegistration->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;" onclick="return confirm('Are you sure you want to cancel your registration?');">
-                            <i class="fa-solid fa-xmark"></i> Cancel Registration
-                        </button>
-                    </form>
+                        <form action="{{ route('events.register.cancel', $userRegistration->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;" onclick="return confirm('Are you sure you want to cancel your registration?');">
+                                <i class="fa-solid fa-xmark"></i> Cancel Registration
+                            </button>
+                        </form>
+                    @endif
                 @else
                     <form action="{{ route('events.register', $event->id) }}" method="POST">
                         @csrf

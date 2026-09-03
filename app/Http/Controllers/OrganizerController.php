@@ -219,8 +219,9 @@ class OrganizerController extends Controller
             ->get();
 
         $attendances = Attendance::where('event_id', $event->id)->get()->keyBy('user_id');
+        $certificates = Certificate::where('event_id', $event->id)->get()->keyBy('user_id');
 
-        return view('organizer.registrations', compact('event', 'registrations', 'attendances'));
+        return view('organizer.registrations', compact('event', 'registrations', 'attendances', 'certificates'));
     }
 
     public function showScanner($eventId)
@@ -300,15 +301,29 @@ class OrganizerController extends Controller
             ->where('organizer_id', $user->id)
             ->firstOrFail();
 
-        // Get attended participants who paid fee
+        // Get attended participants who have their attendance marked
         $eligibleRegistrations = Registration::with('user')
             ->where('event_id', $event->id)
             ->where('status', 'attended')
             ->get();
 
+        if ($eligibleRegistrations->isEmpty()) {
+            return back()->with('error', 'No attended participants found. Certificates can only be issued after students mark or verify their attendance on the event day.');
+        }
+
         $issuedCount = 0;
+        $alreadyIssuedCount = 0;
 
         foreach ($eligibleRegistrations as $reg) {
+            // Verify attendance record exists
+            $hasAttendance = Attendance::where('event_id', $event->id)
+                ->where('user_id', $reg->user_id)
+                ->exists();
+
+            if (!$hasAttendance) {
+                continue;
+            }
+
             $existingCert = Certificate::where('event_id', $event->id)
                 ->where('user_id', $reg->user_id)
                 ->first();
@@ -330,7 +345,13 @@ class OrganizerController extends Controller
                 ]);
 
                 $issuedCount++;
+            } else {
+                $alreadyIssuedCount++;
             }
+        }
+
+        if ($issuedCount === 0 && $alreadyIssuedCount > 0) {
+            return back()->with('info', "All {$alreadyIssuedCount} attended participant(s) already have certificates issued.");
         }
 
         return back()->with('success', "Issued {$issuedCount} e-certificates to attended participants.");

@@ -26,16 +26,16 @@
         </div>
 
         <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
-            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.5rem;">How do I check in on the day of the event?</h3>
+            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.5rem;">How do I mark attendance on the day of the event?</h3>
             <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
-                Log into your student dashboard and click <strong>"View Pass"</strong> under your registered event. Present the generated QR token code to event staff, who will scan it using the Organizer Attendance tool to verify your entry.
+                On the day of the event, log into your Student Portal dashboard and click the <strong>"Mark Attendance"</strong> button next to your registered event, or click <strong>"View Pass"</strong> to mark attendance and view your entry QR code. Event staff can also scan your QR code using the Organizer Scanner.
             </p>
         </div>
 
         <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
             <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.5rem;">When can I download my participation e-certificate?</h3>
             <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
-                E-certificates are issued after the event concludes for participants who have had their attendance verified by organizers. Once issued, certificates can be viewed and printed directly from your student dashboard.
+                E-certificates are issued by event organizers exclusively for students who have marked or verified their attendance on the event day. Once issued by the organizer, your certificate will appear in the <strong>"My E-Certificates"</strong> section of your Student Dashboard.
             </p>
         </div>
     </div>

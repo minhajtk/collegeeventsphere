@@ -27,8 +27,8 @@
         </button>
         <form action="{{ route('organizer.events.certificates.issue', $event->id) }}" method="POST" style="display: inline;">
             @csrf
-            <button type="submit" class="btn btn-outline btn-sm" onclick="return confirm('Issue e-certificates to all participants marked as Attended?');">
-                <i class="fa-solid fa-certificate" style="color: var(--secondary);"></i> Issue E-Certificates
+            <button type="submit" class="btn btn-outline btn-sm" onclick="return confirm('Issue e-certificates to all participants with marked attendance?');">
+                <i class="fa-solid fa-certificate" style="color: var(--secondary);"></i> Issue E-Certificates ({{ $registrations->where('status', 'attended')->count() }} Eligible)
             </button>
         </form>
     </div>
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="portal-metric-value" style="color: var(--success);">{{ $registrations->where('status', 'attended')->count() }}</div>
-        <div class="portal-metric-sub">Verified through QR scanner</div>
+        <div class="portal-metric-sub">Marked / Verified Attendance</div>
     </div>
 
     <div class="portal-metric-card">
@@ -98,6 +98,7 @@
                         <th>Registration Status</th>
                         <th>QR Pass Token</th>
                         <th>Attendance</th>
+                        <th>Certificate</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,12 +123,27 @@
                             </td>
                             <td><code style="font-size: 0.78rem; color: #a1a1aa;">{{ $reg->qr_code_token }}</code></td>
                             <td>
-                                @if(isset($attendances[$reg->user_id]))
+                                @if(isset($attendances[$reg->user_id]) || $reg->status === 'attended')
                                     <span style="color: var(--success); font-weight: 600; font-size: 0.82rem;">
-                                        <i class="fa-solid fa-circle-check"></i> {{ $attendances[$reg->user_id]->checked_in_at->format('h:i A') }}
+                                        <i class="fa-solid fa-circle-check"></i> {{ isset($attendances[$reg->user_id]) ? $attendances[$reg->user_id]->checked_in_at->format('h:i A') : 'Attended' }}
                                     </span>
                                 @else
-                                    <span style="color: var(--text-dim); font-size: 0.82rem;">Not Checked In</span>
+                                    <span style="color: var(--text-dim); font-size: 0.82rem;">Not Marked</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($certificates[$reg->user_id]))
+                                    <span style="color: var(--secondary); font-weight: 600; font-size: 0.82rem;">
+                                        <i class="fa-solid fa-award"></i> Issued
+                                    </span>
+                                @elseif($reg->status === 'attended' || isset($attendances[$reg->user_id]))
+                                    <span style="color: var(--accent); font-size: 0.82rem; font-weight: 600;">
+                                        <i class="fa-solid fa-circle-check"></i> Ready to Issue
+                                    </span>
+                                @else
+                                    <span style="color: var(--text-dim); font-size: 0.8rem;" title="Student must mark attendance before certificate is issued">
+                                        <i class="fa-solid fa-lock"></i> Requires Attendance
+                                    </span>
                                 @endif
                             </td>
                         </tr>

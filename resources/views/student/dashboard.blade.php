@@ -71,12 +71,22 @@
                         <th>Date & Time</th>
                         <th>Venue</th>
                         <th>Status</th>
+                        <th>Attendance</th>
                         <th>QR Pass</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($registrations as $reg)
+                        @php
+                            $startDate = $reg->event->start_date->copy()->startOfDay();
+                            $endDate = ($reg->event->end_date ? $reg->event->end_date->copy() : $reg->event->start_date->copy())->endOfDay();
+                            $today = now()->startOfDay();
+                            $isEventDay = now()->gte($startDate) && now()->lte($endDate);
+                            $isUpcoming = $today->lt($startDate);
+                            $isPassed = now()->gt($endDate);
+                            $hasAttended = ($reg->status === 'attended') || isset($attendances[$reg->event_id]);
+                        @endphp
                         <tr>
                             <td>
                                 <strong><a href="{{ route('events.show', $reg->event->slug) }}">{{ $reg->event->title }}</a></strong>
@@ -93,6 +103,37 @@
                                     <span style="color: #60a5fa; font-weight: 700;"><i class="fa-solid fa-user-check"></i> Attended</span>
                                 @else
                                     <span style="color: #f87171;"><i class="fa-solid fa-ban"></i> Cancelled</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($hasAttended)
+                                    <span style="color: #34d399; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(52, 211, 153, 0.12); padding: 0.3rem 0.65rem; border-radius: 9999px; border: 1px solid rgba(52, 211, 153, 0.25);">
+                                        <i class="fa-solid fa-circle-check"></i> Attended
+                                        @if(isset($attendances[$reg->event_id]))
+                                            <span style="font-size: 0.72rem; color: #a7f3d0; font-weight: normal;">({{ $attendances[$reg->event_id]->checked_in_at->format('h:i A') }})</span>
+                                        @endif
+                                    </span>
+                                @elseif($reg->status === 'registered')
+                                    @if($isEventDay)
+                                        <form action="{{ route('student.events.attendance', $reg->event->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.8rem; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);" onclick="return confirm('Mark your attendance for {{ addslashes($reg->event->title) }} today?');">
+                                                <i class="fa-solid fa-user-check"></i> Mark Attendance
+                                            </button>
+                                        </form>
+                                    @elseif($isUpcoming)
+                                        <span style="color: #94a3b8; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(255,255,255,0.04); padding: 0.25rem 0.55rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);" title="Opens on event day: {{ $reg->event->start_date->format('M d, Y') }}">
+                                            <i class="fa-regular fa-calendar"></i> Opens {{ $reg->event->start_date->format('M d') }}
+                                        </span>
+                                    @else
+                                        <span style="color: #f87171; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(239, 68, 68, 0.08); padding: 0.25rem 0.55rem; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                            <i class="fa-solid fa-clock-rotate-left"></i> Event Ended
+                                        </span>
+                                    @endif
+                                @elseif($reg->status === 'waitlisted')
+                                    <span style="color: #fbbf24; font-size: 0.78rem;">On Waitlist</span>
+                                @else
+                                    <span style="color: #94a3b8; font-size: 0.78rem;">-</span>
                                 @endif
                             </td>
                             <td>
@@ -115,8 +156,28 @@
                                             </div>
 
                                             <p style="font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 0.3rem;">{{ $reg->qr_code_token }}</p>
-                                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Present this QR code to event staff on entry for attendance verification.</p>
+                                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Present this QR code to event staff on entry or mark your attendance on the event day.</p>
                                             
+                                            @if($hasAttended)
+                                                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 0.75rem; margin-bottom: 1rem; color: #34d399; font-weight: 600; font-size: 0.85rem;">
+                                                    <i class="fa-solid fa-circle-check"></i> Attendance Confirmed for this Event
+                                                </div>
+                                            @elseif($isEventDay && $reg->status === 'registered')
+                                                <div style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md);">
+                                                    <p style="font-size: 0.82rem; color: #34d399; margin-bottom: 0.5rem; font-weight: 600;">Today is the event day!</p>
+                                                    <form action="{{ route('student.events.attendance', $reg->event->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: none;">
+                                                            <i class="fa-solid fa-user-check"></i> Mark My Attendance Today
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <div style="margin-bottom: 1rem; font-size: 0.78rem; color: var(--text-muted);">
+                                                    <i class="fa-solid fa-info-circle"></i> Attendance can be self-marked on event day: <strong>{{ $reg->event->start_date->format('M d, Y') }}</strong>
+                                                </div>
+                                            @endif
+
                                             <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; text-align: left; font-size: 0.85rem;">
                                                 <p><strong>Student:</strong> {{ Auth::user()->name }} ({{ Auth::user()->enrolment_number }})</p>
                                                 <p><strong>Event:</strong> {{ $reg->event->title }}</p>

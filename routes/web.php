@@ -37,6 +37,7 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     Route::post('/student/notifications/read', [StudentController::class, 'markNotificationsRead'])->name('student.notifications.read');
     Route::get('/student/certificates/{id}/download', [StudentController::class, 'downloadCertificate'])->name('student.certificate.download');
     Route::post('/student/profile/update', [StudentController::class, 'updateProfile'])->name('student.profile.update');
+    Route::post('/events/{id}/attendance', [StudentController::class, 'markAttendance'])->name('student.events.attendance');
 
     Route::post('/events/{id}/register', [RegistrationController::class, 'store'])->name('events.register');
     Route::post('/registrations/{id}/cancel', [RegistrationController::class, 'cancel'])->name('events.register.cancel');
