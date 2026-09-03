@@ -10,7 +10,7 @@
     <div>
         <!-- Event Header & Banner -->
         <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow-soft);">
-            <div style="height: 320px; width: 100%; background-image: url('{{ $event->banner_image ? asset($event->banner_image) : 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=80' }}'); background-size: cover; background-position: center; position: relative;">
+            <div style="height: 320px; width: 100%; background-image: url('{{ $event->banner_url }}'); background-size: cover; background-position: center; position: relative;">
                 <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-surface), transparent 70%);"></div>
                 
                 <div style="position: absolute; top: 1.5rem; left: 1.5rem; display: flex; gap: 0.75rem;">

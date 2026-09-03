@@ -60,14 +60,18 @@ class MediaController extends Controller
             'department' => 'nullable|string|max:255',
             'year' => 'required|integer|min:2000|max:2099',
             'event_id' => 'nullable|exists:events,id',
-            'file' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,mov,avi|max:20480',
+            'file' => 'required|file|mimes:jpg,jpeg,png,webp,jfif,avif,gif,mp4,mov,avi,webm|max:20480',
         ]);
 
         $filePath = '';
         if ($request->hasFile('file')) {
             $file = $request->file('file');
+            $uploadDir = public_path('uploads/gallery');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/gallery'), $filename);
+            $file->move($uploadDir, $filename);
             $filePath = 'uploads/gallery/' . $filename;
         }
 

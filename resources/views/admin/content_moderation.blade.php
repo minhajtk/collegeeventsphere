@@ -76,9 +76,9 @@
                 <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden;">
                     <div style="height: 140px; background: #000; overflow: hidden; position: relative;">
                         @if($media->media_type === 'video')
-                            <video src="{{ asset($media->file_path) }}" style="width: 100%; height: 100%; object-fit: cover;"></video>
+                            <video src="{{ $media->file_url }}" style="width: 100%; height: 100%; object-fit: cover;"></video>
                         @else
-                            <img src="{{ asset($media->file_path) }}" alt="{{ $media->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="{{ $media->file_url }}" alt="{{ $media->title }}" onerror="this.onerror=null;this.src='{{ $media->getFallbackImage() }}';" style="width: 100%; height: 100%; object-fit: cover;">
                         @endif
                     </div>
                     <div style="padding: 0.85rem;">

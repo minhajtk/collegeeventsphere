@@ -70,7 +70,7 @@
     <div class="event-grid">
         @foreach($events as $event)
             <div class="event-card">
-                <div class="event-card-img" style="background-image: url('{{ $event->banner_image ? asset($event->banner_image) : 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80' }}'); background-size: cover; background-position: center;">
+                <div class="event-card-img" style="background-image: url('{{ $event->banner_url }}'); background-size: cover; background-position: center;">
                     <span class="category-badge"><i class="fa-solid fa-tag"></i> {{ $event->category->name }}</span>
                     @if($event->isFull())
                         <span class="slot-badge full">Waitlist Active</span>

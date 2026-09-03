@@ -61,9 +61,9 @@
             <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; position: relative;" class="gallery-card">
                 <div style="height: 220px; width: 100%; position: relative; background: var(--bg-card); overflow: hidden;">
                     @if($item->media_type === 'video')
-                        <video src="{{ asset($item->file_path) }}" controls style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        <video src="{{ $item->file_url }}" controls style="width: 100%; height: 100%; object-fit: cover;"></video>
                     @else
-                        <img src="{{ asset($item->file_path) }}" alt="{{ $item->title }}" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);">
+                        <img src="{{ $item->file_url }}" alt="{{ $item->title }}" onerror="this.onerror=null;this.src='{{ $item->getFallbackImage() }}';" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);">
                     @endif
 
                     <span class="category-badge" style="top: 0.75rem; left: 0.75rem; font-size: 0.75rem;">{{ $item->category }}</span>

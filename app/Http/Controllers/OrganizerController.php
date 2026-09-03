@@ -64,23 +64,31 @@ class OrganizerController extends Controller
             'registration_deadline' => 'required|date|before:start_date',
             'organizing_department' => 'required|string|max:255',
             'hashtags' => 'nullable|string|max:255',
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,jfif,avif,gif|max:5120',
             'rulebook_file' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
         $bannerPath = null;
         if ($request->hasFile('banner_image')) {
             $file = $request->file('banner_image');
+            $uploadDir = public_path('uploads/events');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
             $filename = time() . '_banner_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/events'), $filename);
+            $file->move($uploadDir, $filename);
             $bannerPath = 'uploads/events/' . $filename;
         }
 
         $rulebookPath = null;
         if ($request->hasFile('rulebook_file')) {
             $file = $request->file('rulebook_file');
+            $uploadDir = public_path('uploads/rulebooks');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
             $filename = time() . '_rulebook_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/rulebooks'), $filename);
+            $file->move($uploadDir, $filename);
             $rulebookPath = 'uploads/rulebooks/' . $filename;
         }
 
@@ -137,7 +145,7 @@ class OrganizerController extends Controller
             'registration_deadline' => 'required|date|before:start_date',
             'organizing_department' => 'required|string|max:255',
             'hashtags' => 'nullable|string|max:255',
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,jfif,avif,gif|max:5120',
             'rulebook_file' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
@@ -147,15 +155,23 @@ class OrganizerController extends Controller
 
         if ($request->hasFile('banner_image')) {
             $file = $request->file('banner_image');
+            $uploadDir = public_path('uploads/events');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
             $filename = time() . '_banner_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/events'), $filename);
+            $file->move($uploadDir, $filename);
             $event->banner_image = 'uploads/events/' . $filename;
         }
 
         if ($request->hasFile('rulebook_file')) {
             $file = $request->file('rulebook_file');
+            $uploadDir = public_path('uploads/rulebooks');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
             $filename = time() . '_rulebook_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/rulebooks'), $filename);
+            $file->move($uploadDir, $filename);
             $event->rulebook_file = 'uploads/rulebooks/' . $filename;
         }
 
